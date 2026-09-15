@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const newsData = [
   {
     id: 1,
@@ -52,12 +54,17 @@ const newsData = [
   },
 ];
 
-function NewsIntelligence({ searchTerm }) {
-const filteredNews = newsData.filter((news) => {
+function NewsIntelligence({ searchTerm = "" }) {
+  const [riskFilter, setRiskFilter] = useState("ALL");
+  const [categoryFilter, setCategoryFilter] = useState("ALL");
+  const [selectedNews, setSelectedNews] = useState(null);
+
+  const filteredNews = newsData.filter((news) => {
   const searchWords = searchTerm
     .toLowerCase()
     .trim()
-    .split(/\s+/);
+    .split(/\s+/)
+    .filter(Boolean);
 
   const newsText = `
     ${news.title}
@@ -66,13 +73,78 @@ const filteredNews = newsData.filter((news) => {
     ${news.description}
   `.toLowerCase();
 
-  return searchWords.every((word) =>
+  const matchesSearch = searchWords.every((word) =>
     newsText.includes(word)
   );
+
+  const matchesRisk =
+    riskFilter === "ALL" || news.risk === riskFilter;
+
+  return matchesSearch && matchesRisk;
 });
 
   return (
     <div className="news-page">
+       {selectedNews && (
+  <div className="news-details-view">
+    <button
+      className="back-button"
+      onClick={() => setSelectedNews(null)}
+    >
+      ← Back to News
+    </button>
+
+    <div className="news-detail-card">
+      <div className="news-card-top">
+        <span
+          className={`risk-badge ${selectedNews.risk.toLowerCase()}`}
+        >
+          {selectedNews.risk}
+        </span>
+
+        <span className="news-time">
+          {selectedNews.time}
+        </span>
+      </div>
+
+      <h2>{selectedNews.title}</h2>
+
+      <p className="news-description">
+        {selectedNews.description}
+      </p>
+
+      <div className="news-detail-info">
+        <p>
+          <strong>Location:</strong> {selectedNews.location}
+        </p>
+
+        <p>
+          <strong>Category:</strong> {selectedNews.category}
+        </p>
+
+        <p>
+          <strong>Confidence:</strong> {selectedNews.confidence}%
+        </p>
+
+        <p>
+          <strong>Source:</strong> {selectedNews.source}
+        </p>
+      </div>
+
+      <div className="risk-information">
+        <h3>Risk Information</h3>
+
+        <p>
+          This information is based on demo public-safety
+          intelligence data.
+        </p>
+
+        <span>DEMO DATA — NOT LIVE</span>
+      </div>
+    </div>
+  </div>
+)}
+
       <div className="news-header">
         <div>
           <h1>News Intelligence</h1>
@@ -88,11 +160,47 @@ const filteredNews = newsData.filter((news) => {
       </div>
 
       <div className="news-content">
+
+    <div className="news-filters">
+  <label htmlFor="risk-filter">Risk Level:</label>
+
+  <select
+    id="risk-filter"
+    value={riskFilter}
+    onChange={(e) => setRiskFilter(e.target.value)}
+  >
+    <option value="ALL">All Risks</option>
+    <option value="LOW">Low</option>
+    <option value="MODERATE">Moderate</option>
+    <option value="HIGH">High</option>
+    <option value="CRITICAL">Critical</option>
+  </select>
+
+  <label htmlFor="category-filter">Category:</label>
+
+  <select
+    id="category-filter"
+    value={categoryFilter}
+    onChange={(e) => setCategoryFilter(e.target.value)}
+  >
+    <option value="ALL">All Categories</option>
+    <option value="Crowd Density">Crowd Density</option>
+    <option value="Traffic">Traffic</option>
+    <option value="Public Event">Public Event</option>
+    <option value="Severe Weather">Severe Weather</option>
+  </select>
+</div>
+
   <h2>Latest News</h2>
 
   <div className="news-list">
     {filteredNews.map((news) => (
-      <div className="news-card" key={news.id}>
+        <div
+         className="news-card"
+         key={news.id}
+         onClick={() => setSelectedNews(news)}
+         >
+
 
         <div className="news-card-top">
           <span className={`risk-badge ${news.risk.toLowerCase()}`}>
