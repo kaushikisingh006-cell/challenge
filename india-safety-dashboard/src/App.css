@@ -12,7 +12,7 @@ body {
 .app {
   display: flex;
   min-height: 100vh;
-}
+}z
 
 .sidebar {
   width: 240px;
@@ -562,4 +562,100 @@ body {
   border-top: 1px solid #f3f4f6;
   font-size: 11px;
   color: #9ca3af;
+}
+
+.news-details-view {
+  width: 100%;
+}
+
+.back-button {
+  border: none;
+  background: transparent;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 18px;
+  padding: 0;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+.news-detail-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 25px;
+  max-width: 900px;
+}
+
+.news-detail-card h2 {
+  font-size: 24px;
+  color: #111827;
+  margin: 18px 0 12px;
+}
+
+.news-detail-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+  padding: 18px;
+  background: #f9fafb;
+  border-radius: 10px;
+}
+
+.news-detail-info p {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.news-detail-info strong {
+  color: #111827;
+}
+
+.risk-information {
+  margin-top: 20px;
+  padding: 18px;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+}
+
+.risk-information h3 {
+  font-size: 16px;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.risk-information p {
+  font-size: 13px;
+  color: #4b5563;
+  margin-bottom: 10px;
+}
+
+.risk-information span {
+  font-size: 10px;
+  font-weight: 700;
+  color: #c2410c;
+}
+
+
+.risk-type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.risk-type strong {
+  color: #111827;
+}
+
+.risk-type span {
+  color: #2563eb;
+  font-size: 13px;
 }
