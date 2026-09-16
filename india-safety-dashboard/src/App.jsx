@@ -5,6 +5,8 @@ import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import NewsIntelligence from "./pages/NewsIntelligence";
+import Events from "./pages/Events";
+import Analytics from "./pages/Analytics";
 
 function App() {
   const [searchTerm,setSearchTerm] = useState(" ");
@@ -22,10 +24,10 @@ function App() {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route
-              path="/news"
-              element={<NewsIntelligence searchTerm={searchTerm} />}
-               />
+              <Route path="/news" 
+              element={<NewsIntelligence searchTerm={searchTerm} />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/events" element={<Events searchTerm={searchTerm} />} />
             </Routes>
           </main>
         </div>
