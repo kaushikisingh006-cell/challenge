@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import NewsIntelligence from "./pages/NewsIntelligence";
 import Events from "./pages/Events";
 import Analytics from "./pages/Analytics";
+import Alerts from "./pages/Alerts";
 
 function App() {
   const [searchTerm,setSearchTerm] = useState(" ");
@@ -28,7 +29,10 @@ function App() {
               element={<NewsIntelligence searchTerm={searchTerm} />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/events" element={<Events searchTerm={searchTerm} />} />
+              <Route path="/alerts" element={<Alerts />} />
+              
             </Routes>
+            
           </main>
         </div>
       </div>
