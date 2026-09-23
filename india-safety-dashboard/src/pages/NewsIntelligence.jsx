@@ -1,60 +1,22 @@
-import { useState } from "react";
-
-const newsData = [
-  {
-    id: 1,
-    title: "Large Public Gathering Reported",
-    location: "Prayagraj, Uttar Pradesh",
-    category: "Crowd Density",
-    risk: "HIGH",
-    confidence: 86,
-    time: "10 minutes ago",
-    source: "Demo News Source",
-    description:
-      "A large public gathering has been reported in the area.",
-  },
-  {
-    id: 2,
-    title: "Heavy Traffic Reported Near Major Road",
-    location: "Lucknow, Uttar Pradesh",
-    category: "Traffic",
-    risk: "MODERATE",
-    confidence: 78,
-    time: "25 minutes ago",
-    source: "Demo News Source",
-    description:
-      "Heavy traffic and congestion have been reported near a major road.",
-  },
-  {
-    id: 3,
-    title: "Public Event Scheduled",
-    location: "Delhi",
-    category: "Public Event",
-    risk: "LOW",
-    confidence: 91,
-    time: "1 hour ago",
-    source: "Demo News Source",
-    description:
-      "A public event has been scheduled in the monitored area.",
-  },
-  {
-    id: 4,
-    title: "Weather-Related Disruption Reported",
-    location: "Mumbai, Maharashtra",
-    category: "Severe Weather",
-    risk: "MODERATE",
-    confidence: 82,
-    time: "2 hours ago",
-    source: "Demo News Source",
-    description:
-      "Weather conditions have caused temporary disruption in the area.",
-  },
-];
+import { useEffect, useState } from "react";
+import { getNews } from "../services/api";
 
 function NewsIntelligence({ searchTerm = "" }) {
   const [riskFilter, setRiskFilter] = useState("ALL");
   const [categoryFilter, setCategoryFilter] = useState("ALL");
   const [selectedNews, setSelectedNews] = useState(null);
+  const [newsData, setNewsData] = useState([]);
+
+
+  useEffect(() => {
+  getNews()
+    .then((response) => {
+      setNewsData(response.data);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch news:", error);
+    });
+}, []);
 
   const filteredNews = newsData.filter((news) => {
     const searchWords = searchTerm

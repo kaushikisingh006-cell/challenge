@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 const alertsData = [
   {
     id: 1,
@@ -33,13 +34,85 @@ const alertsData = [
 ];
 
 function Alerts() {
-    const [riskFilter, setRiskFilter] = useState("ALL");
-      const filteredAlerts = alertsData.filter((alert) => {
-        if (riskFilter === "ALL") {
-         return true;
-       }
- return alert.risk === riskFilter;
-});
+  const [riskFilter, setRiskFilter] = useState("ALL");
+  const [selectedAlert, setSelectedAlert] = useState(null);
+
+  const filteredAlerts = alertsData.filter((alert) => {
+    if (riskFilter === "ALL") {
+      return true;
+    }
+
+    return alert.risk === riskFilter;
+  });
+
+
+  if (selectedAlert) {
+  return (
+    <div className="alerts-page">
+      <button
+        className="back-button"
+        onClick={() => setSelectedAlert(null)}
+      >
+        ← Back to Alerts
+      </button>
+
+      <div className="news-detail-card">
+        <div className="news-card-top">
+          <span
+            className={`risk-badge ${selectedAlert.risk.toLowerCase()}`}
+          >
+            {selectedAlert.risk}
+          </span>
+
+          <span className="news-time">
+            {selectedAlert.time}
+          </span>
+        </div>
+
+        <h2>{selectedAlert.title}</h2>
+
+        <div className="news-detail-info">
+          <p>
+            <strong>Location:</strong>{" "}
+            {selectedAlert.location}
+          </p>
+
+          <p>
+            <strong>Category:</strong>{" "}
+            {selectedAlert.category}
+          </p>
+
+          <p>
+            <strong>Confidence:</strong>{" "}
+            {selectedAlert.confidence}%
+          </p>
+
+          <p>
+            <strong>Status:</strong>{" "}
+            {selectedAlert.status}
+          </p>
+
+          <p>
+            <strong>Time:</strong>{" "}
+            {selectedAlert.time}
+          </p>
+        </div>
+
+        <div className="risk-information">
+          <h3>Alert Information</h3>
+
+          <p>
+            This alert is based on demo public-safety
+            information for dashboard testing.
+          </p>
+
+          <span>DEMO DATA — NOT LIVE</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
   return (
     <div className="alerts-page">
@@ -55,41 +128,62 @@ function Alerts() {
           DEMO DATA — NOT LIVE
         </div>
       </div>
-        
-         <div className="alerts-filter">
-  <label htmlFor="risk-filter">
-    Risk Level:
-  </label>
 
-  <select
-    id="risk-filter"
-    value={riskFilter}
-    onChange={(e) => setRiskFilter(e.target.value)}
-  >
-    <option value="ALL">All Risks</option>
-    <option value="HIGH">High</option>
-    <option value="MODERATE">Moderate</option>
-    <option value="LOW">Low</option>
-  </select>
-  <p>Selected filter: {riskFilter}</p>
-</div>
+      <div className="alerts-filter">
+        <label htmlFor="risk-filter">
+          Risk Level:
+        </label>
+
+        <select
+          id="risk-filter"
+          value={riskFilter}
+          onChange={(e) => setRiskFilter(e.target.value)}
+        >
+          <option value="ALL">All Risks</option>
+          <option value="HIGH">High</option>
+          <option value="MODERATE">Moderate</option>
+          <option value="LOW">Low</option>
+        </select>
+      </div>
 
       <div className="alerts-list">
- {filteredAlerts.map((alert) => (
-    <div className="alert-card" key={alert.id}>
-      <h2>{alert.title}</h2>
+        {filteredAlerts.map((alert) => (
+         <div
+        className="alert-card"
+         key={alert.id}
+          onClick={() => setSelectedAlert(alert)}
+>
+            <h2>{alert.title}</h2>
 
-      <p>📍 {alert.location}</p>
-      <p>🏷️ {alert.category}</p>
-       <span className={`alert-risk ${alert.risk.toLowerCase()}`}>
-       {alert.risk}
-      </span>
-      <p>Confidence: {alert.confidence}%</p>
-      <p>Time: {alert.time}</p>
-      <p>Status: {alert.status}</p>
-    </div>
-  ))}
-</div>
+            <p>📍 {alert.location}</p>
+
+            <p>🏷️ {alert.category}</p>
+
+            <span
+              className={`alert-risk ${alert.risk.toLowerCase()}`}
+            >
+              {alert.risk}
+            </span>
+
+            <p>
+              Confidence: {alert.confidence}%
+            </p>
+
+            <p>
+              Time: {alert.time}
+            </p>
+
+            <p>
+              Status: {alert.status}
+            </p>
+          </div>
+        ))}
+      </div>
+
+
+      {filteredAlerts.length === 0 && (
+        <p>No alerts found.</p>
+      )}
     </div>
   );
 }
